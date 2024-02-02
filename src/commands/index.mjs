@@ -1,9 +1,11 @@
-import { closeEvent } from "./close.mjs";
-import { upCommand } from "./up.mjs";
-import { addCommand } from "./add.mjs";
+import { closeEvent } from "./basic/close.mjs";
+import { upCommand } from "./basic/up.mjs";
+import { addCommand } from "./basic/add.mjs";
+import { deleteCommand } from './basic/delete.mjs';
 
 export const commandList = {
   close: closeEvent,
   up: upCommand,
-  add: addCommand
+  add: addCommand,
+  delete: deleteCommand,
 }

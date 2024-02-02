@@ -9,7 +9,7 @@ export const addCommand = (fileName) => {
   if (err) {
     console.error('Error creating the file:', err);
   } else {
-    console.log(`Success! The file is created \/n You are currently in ${currentWD}`);
+    console.log(`Success! The file is created /n You are currently in ${currentWD}`);
   }
 });
 }
