@@ -10,7 +10,7 @@ let localUsername = null;
 
 args.map((arg) => {
   console.log(arg);
-  if (arg.includes('--')) localUsername = arg.split('=')[1];
+  if (arg.includes('--username')) localUsername = arg.split('=')[1];
 });
 
 console.log(`Welcome to the File Manager, ${localUsername}!`);
