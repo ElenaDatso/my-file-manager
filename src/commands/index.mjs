@@ -1,12 +1,7 @@
-import { closeEvent } from "./basic/close.mjs";
-import { upCommand } from "./navigating/up.mjs";
-import { addCommand } from "./basic/add.mjs";
-import { deleteCommand } from './basic/delete.mjs';
-import { cdCommand } from "./navigating/cd.mjs";
-import { listCommand } from "./navigating/list.mjs";
-import { catCommand } from "./basic/cat.mjs";
-import { renameCommand } from "./basic/rename.mjs";
-import { copyCommand } from "./basic/copy.mjs";
+import { cdCommand , listCommand, upCommand} from "./navigating/index.mjs";
+import { addCommand, catCommand, closeEvent, copyCommand, renameCommand, deleteCommand } from "./basic/index.mjs";
+import { eolCommand, cpusCommand, usernameCommand, archCommand } from "./os/index.mjs";
+import { hashCommand } from "./hash/hash.mjs";
 
 export const commandList = {
   close: closeEvent,
@@ -18,4 +13,10 @@ export const commandList = {
   cat: catCommand,
   rn: renameCommand,
   cp: copyCommand,
-}
+  eol: eolCommand,
+  cpus: cpusCommand,
+  homedir: homeDirCommand,
+  username: usernameCommand,
+  architecture: archCommand,
+  hash: hashCommand,
+};

@@ -14,10 +14,10 @@ args.map((arg) => {
   console.log(arg);
   if (arg.includes('--username')) localUsername = arg.split('=')[1];
 });
-console.log(`Welcome to the File Manager, ${localUsername}!`);
+console.log(`\nWelcome to the File Manager, ${localUsername}!`);
+let currentWD = process.cwd();
 
 process.stdin.on('data', (data) => {
-  let currentWD = process.cwd();
   const dataArray = data.trim().split(' ');
   const command = dataArray[0];
   const arg1 = dataArray[1];
@@ -66,6 +66,28 @@ process.stdin.on('data', (data) => {
       commandList.delete(arg1);
       msg(currentWD);
       break;
+
+    case ('os'):
+      switch(arg1.substring(2).toLowerCase()) {
+        case ('eol'):
+          commandList.eol();
+          break;
+        case ('cpus'):
+          commandList.cpus();
+          break;
+        case ('homedir'):
+          commandList.homedir();
+          break;
+        case ('username'):
+          commandList.username();
+          break;
+        case ('architecture'):
+          commandList.architecture();
+      };
+      msg(currentWD);
+      break;
+    case ('hash'):
+      commandList.hash(arg1);
     default:
       console.log('Unknown command');
   }
@@ -76,5 +98,4 @@ process.on('SIGINT', () => {
   commandList.close(localUsername);
 });
 
-const currentWorkingDirectory = process.cwd();
-console.log(`You are currently in ${currentWorkingDirectory}`);
+msg(currentWD);
