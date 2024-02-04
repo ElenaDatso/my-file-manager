@@ -1,1 +1,1 @@
-export const msg = (cwd) => console.log(`You are currently in ${cwd}`);
+export const msg = (cwd) => console.log(`\nYou are currently in ${cwd}\n`);
