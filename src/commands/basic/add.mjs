@@ -11,6 +11,7 @@ export const addCommand = (fileName) => {
     msg.opFailed();
   } else {
     console.log(`Success! The file is created /n You are currently in ${currentWD}`);
+    msg.curDirMsg(process.cwd());
   }
 });
 }
