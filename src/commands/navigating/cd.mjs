@@ -15,7 +15,8 @@ export const cdCommand = (pathToGo, cwd) => {
     } else {
       const relativePath = path.relative(cwd, normalPath);
       process.chdir(relativePath);
-      msg.curDirMsg(relativePath);
+      const absPth = path.resolve(relativePath);
+      msg.curDirMsg(absPth);
     }
   } catch {
     msg.opFailed();
