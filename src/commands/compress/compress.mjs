@@ -47,6 +47,7 @@ export async function compressCommand(pathToFile, pathToDestination) {
       'File successfully compressed using Brotli and written to destination:',
       absolutePathToDestination
     );
+    msg.curDirMsg(process.cwd());
   } catch {
     msg.opFailed();
   }
