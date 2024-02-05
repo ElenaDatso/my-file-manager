@@ -47,8 +47,7 @@ export async function compressCommand(pathToFile, pathToDestination) {
       absolutePathToDestination
     );
     msg.curDirMsg(process.cwd());
-  } catch (error) {
-    console.error('An error occurred:', error);
+  } catch {
     msg.opFailed();
   }
 }
