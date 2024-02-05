@@ -1,5 +1,6 @@
 import fsPromis from 'fs/promises';
 import path from 'path';
+import { msg } from '../../messages/msg.mjs';
 
 export async function renameCommand(filePath, newName) {
   try {
@@ -9,7 +10,9 @@ export async function renameCommand(filePath, newName) {
 
     await fsPromis.rename(absoluteFilePath, newPath);
     console.log(`File has been renamed to ${newName}`);
+    msg.curDirMsg(process.cwd())
+
   } catch (error) {
-    console.error(`Error renaming file: ${error.message}`);
+    msg.opFailed();
   }
 }
