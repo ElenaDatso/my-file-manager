@@ -38,8 +38,7 @@ export async function copyCommand(sourcePath, destinationPath) {
     await copyFileAsync(sourcePath, destinationPath);
     console.log('File has been copied successfully.');
     msg.curDirMsg(process.cwd());
-  } catch (error) {
-    console.error(error);
+  } catch {
     msg.opFailed();
   }
 }
