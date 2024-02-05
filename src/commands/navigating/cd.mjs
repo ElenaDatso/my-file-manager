@@ -8,16 +8,16 @@ export const cdCommand = (pathToGo, cwd) => {
     msg.invInp();
     return;
   }
+
   try {
+    let newPath;
     if (path.isAbsolute(normalPath)) {
-      process.chdir(normalPath);
-      msg.curDirMsg(normalPath);
+      newPath = normalPath;
     } else {
-      const relativePath = path.relative(cwd, normalPath);
-      process.chdir(relativePath);
-      const absPth = path.resolve(relativePath);
-      msg.curDirMsg(absPth);
+      newPath = path.join(cwd, normalPath);
     }
+    process.chdir(newPath);
+    msg.curDirMsg(process.cwd());
   } catch {
     msg.opFailed();
   }
