@@ -8,7 +8,6 @@ import { msg } from '../../messages/msg.mjs';
 const pipelineAsync = promisify(pipeline);
 
 export async function compressCommand(pathToFile, pathToDestination) {
-  // Определяем абсолютные пути
   const absolutePathToFile = path.resolve(pathToFile);
   let absolutePathToDestination = path.resolve(pathToDestination);
 
@@ -16,24 +15,24 @@ export async function compressCommand(pathToFile, pathToDestination) {
     existsSync(absolutePathToDestination) &&
     statSync(absolutePathToDestination).isDirectory()
   ) {
-    const fileName =
-      path.basename(pathToFile, path.extname(pathToFile)) + '.br';
-    absolutePathToDestination = path.join(absolutePathToDestination, fileName);
+    const fileNameWithExtension = path.basename(pathToFile) + '.br';
+    absolutePathToDestination = path.join(
+      absolutePathToDestination,
+      fileNameWithExtension
+    );
   } else {
-
     const destinationDir = path.dirname(absolutePathToDestination);
     if (!existsSync(destinationDir)) {
       throw new Error(
         `Destination directory does not exist: ${destinationDir}`
       );
     }
-    if (
-      path.basename(absolutePathToDestination) ===
-      path.dirname(absolutePathToDestination)
-    ) {
-      const fileName =
-        path.basename(pathToFile, path.extname(pathToFile)) + '.br';
-      absolutePathToDestination = path.join(destinationDir, fileName);
+    if (path.basename(absolutePathToDestination) === destinationDir) {
+      const fileNameWithExtension = path.basename(pathToFile) + '.br';
+      absolutePathToDestination = path.join(
+        destinationDir,
+        fileNameWithExtension
+      );
     }
   }
 
@@ -48,7 +47,8 @@ export async function compressCommand(pathToFile, pathToDestination) {
       absolutePathToDestination
     );
     msg.curDirMsg(process.cwd());
-  } catch {
+  } catch (error) {
+    console.error('An error occurred:', error);
     msg.opFailed();
   }
 }
