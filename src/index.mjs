@@ -23,6 +23,8 @@ try {
         : arg.split('=')[1];
     }
   });
+
+  console.log(`Welcome to the File Manager, ${localUsername}!`)
   
   process.stdin.on('data', (data) => {
     const dataArray = data.trim().split(' ');
