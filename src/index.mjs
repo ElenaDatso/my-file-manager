@@ -83,10 +83,12 @@ try {
           case 'architecture':
             commandList.architecture();
             break;
+          default:
+            msg.invInp();
         }
         break;
       case 'hash':
-        commandList.hash(arg1);
+        commandList.hash(uniArg);
         break;
       case 'compress':
         commandList.compress(arg1, arg2);
