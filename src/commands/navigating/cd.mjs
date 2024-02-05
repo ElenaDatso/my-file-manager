@@ -1,21 +1,23 @@
 import path from 'path';
+import { msg } from '../../messages/msg.mjs';
 
 export const cdCommand = (pathToGo, cwd) => {
   const normalPath = path.normalize(pathToGo);
 
   if (path.extname(normalPath)) {
-    console.log('It is not a directory path');
+    msg.invInp();
     return;
   }
-
   try {
     if (path.isAbsolute(normalPath)) {
       process.chdir(normalPath);
+      msg.curDirMsg(normalPath);
     } else {
       const relativePath = path.relative(cwd, normalPath);
       process.chdir(relativePath);
+      msg.curDirMsg(relativePath);
     }
-  } catch (error) {
-    console.error(`Failed to change directory: ${error}`);
+  } catch {
+    msg.opFailed();
   }
 };

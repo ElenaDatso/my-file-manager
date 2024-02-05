@@ -5,4 +5,4 @@ import { catCommand } from './cat.mjs';
 import { renameCommand } from './rename.mjs';
 import { copyCommand } from './copy.mjs';
 
-export default { closeEvent, addCommand, deleteCommand, catCommand, renameCommand, copyCommand };
+export const basicFuncs = { closeEvent, addCommand, deleteCommand, catCommand, renameCommand, copyCommand };

@@ -1,101 +1,106 @@
 import os from 'os';
 import { commandList } from './commands/index.mjs';
-import { msg } from './helpers/curDirMsg.mjs';
+import { msg } from './messages/msg.mjs';
 
 process.stdin.setEncoding('utf8');
 
-const homeDirectory = os.homedir();
-process.chdir(homeDirectory);
+export let currentWD = null;
 
-const args = process.argv;
-let localUsername = null;
+try {
+  const homeDirectory = os.homedir();
+  process.chdir(homeDirectory);
+  currentWD = process.cwd();
+  msg.curDirMsg(currentWD);
 
-args.map((arg) => {
-  console.log(arg);
-  if (arg.includes('--username')) localUsername = arg.split('=')[1];
-});
-console.log(`\nWelcome to the File Manager, ${localUsername}!`);
-let currentWD = process.cwd();
+  const args = process.argv;
+  let localUsername = null;
 
-process.stdin.on('data', (data) => {
-  const dataArray = data.trim().split(' ');
-  const command = dataArray[0];
-  const arg1 = dataArray[1];
-  const arg2 = dataArray[2];
-  switch (command) {
-    case ('.exit'):
-      commandList.close(localUsername);
-       msg(currentWD);
-       break;
-    case ('add'):
-      commandList.add(arg1);
-      msg(currentWD);
-      break;
-    case ('rm'):
-      commandList.delete(`${currentWD}/${arg1}`, currentWD);
-      msg(currentWD);
-      break;
-    case ('up'):
-      commandList.up(currentWD);
-      currentWD = process.cwd();
-      msg(currentWD);
-      break;
-    case ('cd'):
-      commandList.cd(arg1, currentWD);
-      currentWD = process.cwd();
-      msg(currentWD);
-      break;
-    case ('ls'):
-      commandList.list(currentWD);
-      msg(currentWD);
-      break;
-    case ('cat'):
-      commandList.cat(arg1);
-      msg(currentWD);
-      break;
-    case ('rn'):
-      commandList.rn(arg1, arg2);
-      msg(currentWD);
-      break;
-    case ('cp'):
-      commandList.cp(arg1, arg2);
-      msg(currentWD);
-      break;
-    case ('mv'):
-      commandList.cp(arg1, arg2);
-      commandList.delete(arg1);
-      msg(currentWD);
-      break;
+  args.map((arg) => {
+    console.log(arg);
+    if (arg.includes('--username')) {
+      localUsername = arg.split('=')[1].startsWith('"', 0)
+        ? arg.split('=')[1].substring(1, arg.split('=')[1].indexOf('"', 1))
+        : arg.split('=')[1];
+    }
+  });
+  
+  process.stdin.on('data', (data) => {
+    const dataArray = data.trim().split(' ');
+    const command = dataArray[0];
+    const arg1 = dataArray[1];
+    const arg2 = dataArray[2];
+    const collectedArgs = dataArray.slice(1).join(' ');
+    const uniArg = dataArray.length > 2 ? collectedArgs : arg1;
+    switch (command) {
+      case '.exit':
+        commandList.close(localUsername);
+        break;
+      case 'add':
+        commandList.add(uniArg);
+        break;
+      case 'rm':
+        commandList.delete(`${currentWD}/${uniArg}`, currentWD);
+        break;
+      case 'up':
+        commandList.up(currentWD);
+        break;
+      case 'cd':
+        commandList.cd(uniArg, currentWD);
+        break;
+      case 'ls':
+        commandList.list();
+        break;
+      case 'cat':
+        commandList.cat(uniArg);
+        break;
+      case 'rn':
+        commandList.rn(arg1, arg2);
+        break;
+      case 'cp':
+        commandList.cp(arg1, arg2);
+        break;
+      case 'mv':
+        commandList.cp(arg1, arg2);
+        commandList.delete(arg1);
+        break;
 
-    case ('os'):
-      switch(arg1.substring(2).toLowerCase()) {
-        case ('eol'):
-          commandList.eol();
-          break;
-        case ('cpus'):
-          commandList.cpus();
-          break;
-        case ('homedir'):
-          commandList.homedir();
-          break;
-        case ('username'):
-          commandList.username();
-          break;
-        case ('architecture'):
-          commandList.architecture();
-      };
-      msg(currentWD);
-      break;
-    case ('hash'):
-      commandList.hash(arg1);
-    default:
-      console.log('Unknown command');
-  }
-  }
-);
+      case 'os':
+        switch (arg1.substring(2).toLowerCase()) {
+          case 'eol':
+            commandList.eol();
+            break;
+          case 'cpus':
+            commandList.cpus();
+            break;
+          case 'homedir':
+            commandList.homedir();
+            break;
+          case 'username':
+            commandList.username();
+            break;
+          case 'architecture':
+            commandList.architecture();
+            break;
+        }
+        break;
+      case 'hash':
+        commandList.hash(arg1);
+        break;
+      case 'compress':
+        commandList.compress(arg1, arg2);
+        break;
+      case 'decompress':
+        commandList.decompress(arg1, arg2);
+        break;
 
-process.on('SIGINT', () => {
-  commandList.close(localUsername);
-});
+      default:
+        msg.invInp();
+    }
+  });
 
-msg(currentWD);
+  process.on('SIGINT', () => {
+    commandList.close(localUsername);
+  });
+} catch {
+  msg.opFailed();
+}

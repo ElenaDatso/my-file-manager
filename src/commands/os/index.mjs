@@ -4,4 +4,4 @@ import { homeDirCommand } from './homedir.mjs';
 import { usernameCommand } from './username.mjs';
 import { archCommand } from "./architecture.mjs";
 
-export default { eolCommand, cpusCommand, homeDirCommand, usernameCommand, archCommand };
+export const osFuncs = { eolCommand, cpusCommand, homeDirCommand, usernameCommand, archCommand };

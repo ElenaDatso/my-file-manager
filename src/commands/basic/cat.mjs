@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { msg } from '../../messages/msg.mjs';
 
 export function catCommand(filePath) {
   const fullPath = path.resolve(filePath);
@@ -10,11 +11,7 @@ export function catCommand(filePath) {
   });
 
   readStream.on('error', (error) => {
-    console.error(`Error reading file: ${error.message}`);
-  });
-
-  readStream.on('end', () => {
-    console.log('File has been read completely.');
+    msg.opFailed();
   });
 }
 

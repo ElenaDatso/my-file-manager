@@ -1,7 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { msg } from '../../messages/msg.mjs';
 
-export async function listCommand(cwd) {
+export async function listCommand() {
+  const cwd = process.cwd();
   try {
     const files = await fs.readdir(cwd);
     const filesDetails = await Promise.all(
@@ -17,7 +19,7 @@ export async function listCommand(cwd) {
     );
 
     console.table(filesDetails);
-  } catch (error) {
-    console.error(`Error reading directory: ${error}`);
+  } catch {
+    msg.opFailed();
   }
 }
